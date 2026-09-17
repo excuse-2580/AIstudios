@@ -179,7 +179,7 @@ class ChatRoomViewModel @Inject constructor(
                 "你好！我是 $name，$personality。有什么我可以帮你的吗？"
             }
             userMessage.contains("你是谁", ignoreCase = true) -> {
-                "我是 $name！$personality，专长领域包括：${agent?.expertise ?: "各种任务"}"
+                "我是 $name！$personality，专长领域包括：${agent?.expertise?.joinToString("、") ?: "各种任务"}"
             }
             userMessage.contains("帮助", ignoreCase = true) ||
             userMessage.contains("help", ignoreCase = true) -> {

@@ -76,6 +76,7 @@ class AIService @Inject constructor(
                     role = when (msg.senderType) {
                         com.aistudio.app.domain.model.SenderType.USER -> "user"
                         com.aistudio.app.domain.model.SenderType.AGENT -> "assistant"
+                        com.aistudio.app.domain.model.SenderType.SYSTEM -> "system"
                     },
                     content = msg.content
                 )
@@ -123,6 +124,7 @@ class AIService @Inject constructor(
                     role = when (msg.senderType) {
                         com.aistudio.app.domain.model.SenderType.USER -> "user"
                         com.aistudio.app.domain.model.SenderType.AGENT -> "assistant"
+                        com.aistudio.app.domain.model.SenderType.SYSTEM -> "system"
                     },
                     content = msg.content
                 )
@@ -137,7 +139,7 @@ class AIService @Inject constructor(
                 maxTokens = agent.maxTokens
             )
             
-            val response = claudeApi.chat(apiKey, request)
+            val response = claudeApi.chat(apiKey = apiKey, request = request)
             
             if (response.isSuccessful) {
                 val body = response.body()
@@ -162,7 +164,7 @@ class AIService @Inject constructor(
                 append("性格特点：${agent.personality}\n")
             }
             if (agent.expertise.isNotEmpty()) {
-                append("专长领域：${agent.expertise}\n")
+                append("专长领域：${agent.expertise.joinToString("、")}\n")
             }
             if (agent.description.isNotEmpty()) {
                 append("简介：${agent.description}\n")

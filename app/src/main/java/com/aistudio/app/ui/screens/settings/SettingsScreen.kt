@@ -60,7 +60,7 @@ fun SettingsScreen(
             }
             
             item {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
                     text = "外观",
                     style = MaterialTheme.typography.titleSmall,
@@ -81,7 +81,7 @@ fun SettingsScreen(
             }
             
             item {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
                     text = "通知",
                     style = MaterialTheme.typography.titleSmall,
@@ -112,7 +112,7 @@ fun SettingsScreen(
             }
             
             item {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
                     text = "语音设置",
                     style = MaterialTheme.typography.titleSmall,
@@ -133,7 +133,7 @@ fun SettingsScreen(
             }
             
             item {
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
                     text = "关于",
                     style = MaterialTheme.typography.titleSmall,

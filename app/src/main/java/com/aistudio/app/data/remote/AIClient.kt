@@ -42,7 +42,7 @@ class AIClient @Inject constructor(
         request: ClaudeRequest
     ): Result<ClaudeResponse> {
         return try {
-            val response = claudeApi.chat(apiKey, request)
+            val response = claudeApi.chat(apiKey = apiKey, request = request)
             if (response.isSuccessful) {
                 response.body()?.let {
                     Result.success(it)

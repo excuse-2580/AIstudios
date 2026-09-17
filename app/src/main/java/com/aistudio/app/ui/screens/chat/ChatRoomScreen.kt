@@ -101,7 +101,7 @@ fun ChatRoomScreen(
                         Icon(Icons.Default.Call, contentDescription = "语音通话")
                     }
                     IconButton(onClick = { navController.navigate(Screen.ScreenShare.createRoute(chatId)) }) {
-                        Icon(Icons.Default.Screencast, contentDescription = "屏幕共享")
+                        Icon(Icons.Default.ScreenShare, contentDescription = "屏幕共享")
                     }
                     IconButton(onClick = { showMenu = true }) {
                         Icon(Icons.Default.MoreVert, contentDescription = "更多")

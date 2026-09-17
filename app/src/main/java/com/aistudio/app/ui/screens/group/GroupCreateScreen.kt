@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.aistudio.app.ui.screens.group
 
 import androidx.compose.foundation.layout.*

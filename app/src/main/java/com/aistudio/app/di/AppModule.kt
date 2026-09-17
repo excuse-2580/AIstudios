@@ -6,6 +6,8 @@ import com.aistudio.app.data.local.AIDatabase
 import com.aistudio.app.data.local.dao.AgentDao
 import com.aistudio.app.data.local.dao.ChatDao
 import com.aistudio.app.data.local.dao.GroupDao
+import com.aistudio.app.data.local.dao.MessageDao
+import com.aistudio.app.data.local.dao.ChatParticipantDao
 import com.aistudio.app.data.remote.ApiConfig
 import com.aistudio.app.data.remote.AIClient
 import com.aistudio.app.data.remote.AIService
@@ -69,6 +71,18 @@ object AppModule {
     @Singleton
     fun provideGroupDao(database: AIDatabase): GroupDao {
         return database.groupDao()
+    }
+    
+    @Provides
+    @Singleton
+    fun provideMessageDao(database: AIDatabase): MessageDao {
+        return database.messageDao()
+    }
+    
+    @Provides
+    @Singleton
+    fun provideChatParticipantDao(database: AIDatabase): ChatParticipantDao {
+        return database.chatParticipantDao()
     }
     
     @Provides
@@ -141,9 +155,10 @@ object AppModule {
     @Singleton
     fun provideChatRepository(
         chatDao: ChatDao,
-        gson: Gson
+        messageDao: MessageDao,
+        participantDao: ChatParticipantDao
     ): ChatRepository {
-        return ChatRepository(chatDao, gson)
+        return ChatRepository(chatDao, messageDao, participantDao)
     }
     
     @Provides

@@ -106,7 +106,7 @@ fun ApiSettingsScreen(
                 )
             }
             
-            HorizontalDivider()
+            Divider()
             
             // OpenAI API Key
             Text(
@@ -224,7 +224,7 @@ fun ApiSettingsScreen(
                 }
             }
             
-            HorizontalDivider()
+            Divider()
             
             // 费用说明
             Card(

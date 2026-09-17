@@ -16,8 +16,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.aistudio.app.service.CallManager
 import com.aistudio.app.service.CallState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,8 +29,8 @@ fun VoiceCallScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val callManager = remember { CallManager() }
-    val callState by callManager.callState.collectAsState()
+    val callViewModel: CallViewModel = hiltViewModel()
+    val callState by callViewModel.callState.collectAsState()
     
     var hasPermissions by remember { mutableStateOf(false) }
     var callDuration by remember { mutableStateOf(0) }
@@ -41,7 +41,7 @@ fun VoiceCallScreen(
     ) { permissions ->
         hasPermissions = permissions.values.all { it }
         if (hasPermissions) {
-            callManager.startCall(chatId, "AI智能体")
+            callViewModel.startCall(chatId, "AI智能体")
         }
     }
     
@@ -56,7 +56,7 @@ fun VoiceCallScreen(
             while (true) {
                 kotlinx.coroutines.delay(1000)
                 callDuration++
-                callManager.updateDuration(callDuration)
+                callViewModel.updateDuration(callDuration)
             }
         }
     }
@@ -73,7 +73,7 @@ fun VoiceCallScreen(
             TopAppBar(
                 title = { Text("语音通话", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = { callManager.endCall() }) {
+                    IconButton(onClick = { callViewModel.endCall() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "返回")
                     }
                 },
@@ -159,7 +159,7 @@ fun VoiceCallScreen(
                 ) {
                     // Mute Button
                     FloatingActionButton(
-                        onClick = { callManager.toggleMute() },
+                        onClick = { callViewModel.toggleMute() },
                         containerColor = if (callState.isMuted) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondaryContainer
                     ) {
                         Icon(
@@ -170,7 +170,7 @@ fun VoiceCallScreen(
                     
                     // End Call Button
                     LargeFloatingActionButton(
-                        onClick = { callManager.endCall() },
+                        onClick = { callViewModel.endCall() },
                         containerColor = MaterialTheme.colorScheme.error
                     ) {
                         Icon(
@@ -182,7 +182,7 @@ fun VoiceCallScreen(
                     
                     // Speaker Button
                     FloatingActionButton(
-                        onClick = { callManager.toggleSpeaker() },
+                        onClick = { callViewModel.toggleSpeaker() },
                         containerColor = if (callState.isSpeakerOn) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant
                     ) {
                         Icon(
@@ -193,7 +193,7 @@ fun VoiceCallScreen(
                 }
             } else if (callState.state == CallState.CONNECTING) {
                 OutlinedButton(
-                    onClick = { callManager.endCall() }
+                    onClick = { callViewModel.endCall() }
                 ) {
                     Text("取消")
                 }

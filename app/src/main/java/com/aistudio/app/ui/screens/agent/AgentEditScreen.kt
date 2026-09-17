@@ -97,19 +97,50 @@ fun AgentEditScreen(
                 leadingIcon = { Icon(Icons.Default.Psychology, contentDescription = null) }
             )
             
-            // 专长领域
+            // 系统提示词
             OutlinedTextField(
-                value = uiState.expertise,
-                onValueChange = viewModel::updateExpertise,
-                label = { Text("专长领域") },
+                value = uiState.systemPrompt,
+                onValueChange = viewModel::updateSystemPrompt,
+                label = { Text("系统提示词 (可选)") },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 2,
-                maxLines = 3,
-                placeholder = { Text("例如：编程、设计、写作、翻译...") },
-                leadingIcon = { Icon(Icons.Default.Stars, contentDescription = null) }
+                maxLines = 4,
+                placeholder = { Text("自定义 AI 的系统设定指令...") },
+                leadingIcon = { Icon(Icons.Default.Terminal, contentDescription = null) }
             )
             
-            HorizontalDivider()
+            // 专长领域（可多个）
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("专长领域", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                TextButton(onClick = viewModel::addExpertise) {
+                    Icon(Icons.Default.Add, contentDescription = null)
+                    Text("添加")
+                }
+            }
+            uiState.expertise.forEachIndexed { index, exp ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedTextField(
+                        value = exp,
+                        onValueChange = { viewModel.updateExpertise(index, it) },
+                        label = { Text("专长 ${index + 1}") },
+                        modifier = Modifier.weight(1f),
+                        singleLine = true,
+                        leadingIcon = { Icon(Icons.Default.Stars, contentDescription = null) }
+                    )
+                    IconButton(onClick = { viewModel.removeExpertise(index) }) {
+                        Icon(Icons.Default.Remove, contentDescription = "删除")
+                    }
+                }
+            }
+            
+            Divider()
             
             // AI参数区域
             Text(
@@ -158,7 +189,7 @@ fun AgentEditScreen(
                 leadingIcon = { Icon(Icons.Default.TextFields, contentDescription = null) }
             )
             
-            HorizontalDivider()
+            Divider()
             
             // 语音设置区域
             Text(

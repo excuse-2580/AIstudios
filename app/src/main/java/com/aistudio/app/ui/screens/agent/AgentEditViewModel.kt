@@ -14,7 +14,8 @@ data class AgentEditUiState(
     val name: String = "",
     val description: String = "",
     val personality: String = "",
-    val expertise: String = "",
+    val expertise: List<String> = emptyList(),
+    val systemPrompt: String = "",
     val voiceType: VoiceType = VoiceType.NEUTRAL,
     val temperature: Float = 0.7f,
     val maxTokens: Int = 2048,
@@ -39,7 +40,7 @@ class AgentEditViewModel @Inject constructor(
         currentAgentId = agentId
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            agentRepository.getAgentById(agentId).let { agent ->
+            agentRepository.getAgentById(agentId).first().let { agent ->
                 agent?.let {
                     _uiState.update { state ->
                         state.copy(
@@ -47,6 +48,7 @@ class AgentEditViewModel @Inject constructor(
                             description = it.description,
                             personality = it.personality,
                             expertise = it.expertise,
+                            systemPrompt = it.systemPrompt,
                             voiceType = it.voiceType,
                             temperature = it.temperature,
                             maxTokens = it.maxTokens,
@@ -71,8 +73,24 @@ class AgentEditViewModel @Inject constructor(
         _uiState.update { it.copy(personality = personality) }
     }
     
-    fun updateExpertise(expertise: String) {
-        _uiState.update { it.copy(expertise = expertise) }
+    fun addExpertise() {
+        _uiState.update { it.copy(expertise = it.expertise + "") }
+    }
+
+    fun removeExpertise(index: Int) {
+        _uiState.update { state ->
+            val list = state.expertise.toMutableList()
+            if (index in list.indices) list.removeAt(index)
+            state.copy(expertise = list)
+        }
+    }
+
+    fun updateExpertise(index: Int, value: String) {
+        _uiState.update { state ->
+            val list = state.expertise.toMutableList()
+            if (index in list.indices) list[index] = value
+            state.copy(expertise = list)
+        }
     }
     
     fun updateVoiceType(voiceType: VoiceType) {
@@ -85,6 +103,10 @@ class AgentEditViewModel @Inject constructor(
     
     fun updateMaxTokens(maxTokens: Int) {
         _uiState.update { it.copy(maxTokens = maxTokens.coerceIn(64, 8192)) }
+    }
+
+    fun updateSystemPrompt(systemPrompt: String) {
+        _uiState.update { it.copy(systemPrompt = systemPrompt) }
     }
     
     fun saveAgent() {
@@ -104,10 +126,12 @@ class AgentEditViewModel @Inject constructor(
                     personality = state.personality,
                     expertise = state.expertise,
                     voiceType = state.voiceType,
+                    systemPrompt = state.systemPrompt,
                     temperature = state.temperature,
                     maxTokens = state.maxTokens,
                     avatarUrl = state.avatarUrl,
-                    createdAt = System.currentTimeMillis()
+                    createdAt = System.currentTimeMillis(),
+                    updatedAt = System.currentTimeMillis()
                 )
                 agentRepository.updateAgent(agent)
                 _uiState.update { it.copy(isLoading = false, isSaved = true) }

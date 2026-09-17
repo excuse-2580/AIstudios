@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.aistudio.app.ui.screens.chat
 
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -73,7 +77,7 @@ fun ChatsScreen(
                         chat = chat,
                         onClick = { navController.navigate(Screen.ChatRoom.createRoute(chat.id)) }
                     )
-                    HorizontalDivider()
+                    Divider()
                 }
             }
         }

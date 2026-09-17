@@ -57,6 +57,18 @@ class ChatRepository @Inject constructor(
     suspend fun updateMessageStatus(messageId: String, status: MessageStatus) {
         messageDao.updateMessageStatus(messageId, status.name)
     }
+
+    suspend fun updateMessage(message: Message) {
+        messageDao.updateMessage(message.toEntity())
+    }
+
+    suspend fun deleteMessage(messageId: String) {
+        messageDao.deleteMessageById(messageId)
+    }
+
+    suspend fun markMessagesAsRead(chatId: String) {
+        messageDao.markChatMessagesRead(chatId)
+    }
     
     fun getParticipants(chatId: String): Flow<List<Participant>> {
         return participantDao.getParticipantsByChatId(chatId).map { entities ->
