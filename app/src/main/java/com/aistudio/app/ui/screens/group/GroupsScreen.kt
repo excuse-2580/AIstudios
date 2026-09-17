@@ -1,5 +1,7 @@
 package com.aistudio.app.ui.screens.group
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

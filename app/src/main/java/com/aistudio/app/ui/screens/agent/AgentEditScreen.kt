@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.aistudio.app.domain.model.VoiceType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
