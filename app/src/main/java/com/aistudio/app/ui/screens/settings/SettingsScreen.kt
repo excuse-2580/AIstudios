@@ -1,6 +1,6 @@
-package com.aistudio.app.ui.screens.settings
-
 @file:OptIn(ExperimentalMaterial3Api::class)
+
+package com.aistudio.app.ui.screens.settings
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

@@ -30,7 +30,7 @@ class GroupDetailViewModel @Inject constructor(
         currentGroupId = groupId
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            groupRepository.getGroupById(groupId).first().let { group ->
+            groupRepository.getGroupByIdOnce(groupId).let { group ->
                 _uiState.update { it.copy(group = group, isLoading = false) }
             }
         }
